@@ -4,6 +4,6 @@ WORKDIR /app
 
 COPY . .
 
-RUN pip install --no-cache-dir pydantic
+RUN pip install --no-cache-dir pydantic fastapi uvicorn
 
-CMD ["bash", "-c", "python inference.py && tail -f /dev/null"]
+CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "7860"]
