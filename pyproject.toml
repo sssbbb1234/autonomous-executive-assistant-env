@@ -3,7 +3,14 @@ name = "autonomous-executive-assistant-env"
 version = "0.1.0"
 description = "Executive assistant agent"
 authors = [{name = "Your Name"}]
-dependencies = []
+requires-python = ">=3.8"
+
+dependencies = [
+    "openenv-core>=0.2.0"
+]
+
+[project.scripts]
+server = "app:app"
 
 [build-system]
 requires = ["setuptools"]
