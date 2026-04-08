@@ -1,0 +1,30 @@
+id: autonomous-executive-assistant
+name: Autonomous Executive Assistant Environment
+
+description: >
+  Simulates a real-world executive assistant workflow where an AI agent
+  manages emails, extracts tasks, schedules meetings, and responds professionally.
+
+entry_point: env:ExecutiveAssistantEnv
+
+tasks:
+  - name: easy
+    description: Email classification only
+  - name: medium
+    description: Classification + task extraction + prioritization
+  - name: hard
+    description: Full workflow including scheduling and replies
+
+observation_space:
+  type: object
+  description: Emails, tasks, and calendar state
+
+action_space:
+  type: object
+  description: Structured action with type and parameters
+
+reward:
+  type: float
+  range: [-1, 1]
+
+max_steps: 20
