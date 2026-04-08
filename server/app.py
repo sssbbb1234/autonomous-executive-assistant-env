@@ -1,18 +1,14 @@
 from fastapi import FastAPI
 from env import ExecutiveAssistantEnv
-from models import Action
+import uvicorn
 
 app = FastAPI()
 env = None
 
 
-def main():
-    return app
-
-
 @app.get("/")
 def home():
-    return {"status": "ok"}
+    return {"message": "Executive Assistant Environment Running"}
 
 
 @app.post("/reset")
@@ -26,20 +22,20 @@ def reset():
 @app.post("/step")
 def step(action: dict):
     global env
-
-    if env is None:
-        return {"error": "Call /reset first"}
-
-    try:
-        action_obj = Action(**action)
-    except Exception as e:
-        return {"error": str(e)}
-
-    obs, reward, done, info = env.step(action_obj)
-
+    obs, reward, done, info = env.step(action)
     return {
         "observation": obs.model_dump(),
         "reward": reward,
         "done": done,
         "info": info
     }
+
+
+# ✅ ADD THIS PART (IMPORTANT)
+def main():
+    uvicorn.run("server.app:app", host="0.0.0.0", port=7860)
+
+
+# ✅ REQUIRED for OpenEnv
+if __name__ == "__main__":
+    main()
