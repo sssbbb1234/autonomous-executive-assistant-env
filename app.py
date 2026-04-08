@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from env import ExecutiveAssistantEnv
+from models import Action
 
 app = FastAPI()
 
@@ -8,7 +9,7 @@ env = None
 
 @app.get("/")
 def home():
-    return {"message": "Executive Assistant Environment Running"}
+    return {"status": "ok"}
 
 
 @app.post("/reset")
@@ -22,7 +23,19 @@ def reset():
 @app.post("/step")
 def step(action: dict):
     global env
-    obs, reward, done, info = env.step(action)
+
+    # 🔴 Safety: ensure env exists
+    if env is None:
+        return {"error": "Environment not initialized. Call /reset first."}
+
+    # 🔴 Convert dict → Action object (IMPORTANT)
+    try:
+        action_obj = Action(**action)
+    except Exception as e:
+        return {"error": f"Invalid action format: {str(e)}"}
+
+    obs, reward, done, info = env.step(action_obj)
+
     return {
         "observation": obs.model_dump(),
         "reward": reward,
