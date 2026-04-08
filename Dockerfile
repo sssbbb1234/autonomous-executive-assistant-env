@@ -6,4 +6,4 @@ COPY . .
 
 RUN pip install --no-cache-dir pydantic
 
-CMD ["python", "inference.py"]
+CMD ["bash", "-c", "python inference.py && tail -f /dev/null"]
