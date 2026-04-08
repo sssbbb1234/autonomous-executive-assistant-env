@@ -1,4 +1,5 @@
-[project]
+[project.scripts]
+server = "server.app:main"
 name = "autonomous-executive-assistant-env"
 version = "0.1.0"
 description = "Executive assistant agent"
